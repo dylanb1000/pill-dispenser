@@ -1,11 +1,13 @@
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Medication {
+public class Medication implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private int count;
 	private int slotNumber;

@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,9 +9,15 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application{
+	Model model=new Model();
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		Model model=new Model();
+		try {
+			this.model=WriterReader.readObjectFromFile(new File(System.getProperty("user.dir")+"/data.ser"));
+			System.out.println("Data read successfully");
+		}catch(Exception e) {
+			System.out.println("Not able to read data file");
+		}
 		Controller controller=new Controller(model);
 		
 		
@@ -24,6 +31,17 @@ public class Main extends Application{
 		primaryStage.setTitle("Pill Dispenser");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+	
+	@Override
+    public void stop() {
+        try {
+			WriterReader.writeObjectToFile(this.model, new File(System.getProperty("user.dir")+"/data.ser"));
+			System.out.println("Data saved successfully");
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Unable to save file.");
+		}
     }
 	
 	public static void main(String[] args) {

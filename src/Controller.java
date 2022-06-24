@@ -88,6 +88,9 @@ public class Controller implements Initializable{
         chart.setLegendVisible(false);
         chart.setAnimated(false);
         chart.getData().add(mainSeries);
+        for(Medication med:model.getUser().getMedicationList()) {
+        	addToSeries(med.getName(),med.getCount());
+        }
 	}
 	public void refreshList() {
 		observableList.setAll(model.getUser().getMedicationList());

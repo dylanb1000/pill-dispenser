@@ -1,0 +1,60 @@
+<project basedir="." default="build">
+
+	
+	
+	<!-- Build -->
+	<target name="build" depends="clean, compile, jar, start-script"/>
+	
+	<!-- Clean -->
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+	<!-- Compile -->
+    <target name="compile">
+        <mkdir dir="build/bin"/>
+        <javac includeantruntime="false" srcdir="src" destdir="build/bin">
+        	<classpath>
+        	      <fileset dir="lib">
+        	        <include name="**/*.jar"/>
+        	      </fileset>
+        	</classpath>
+        </javac>
+    </target>
+	<!-- Copy -->
+	<!--target name="copy">
+			<copy todir="build/images">
+				<fileset dir="images">
+					<include name="*.png"/>
+				</fileset>
+			</copy>
+		</target-->
+	<!-- Jar -->
+    <target name="jar" depends="compile">
+        <jar destfile="build/Pill_Dispenser.jar" basedir="bin">
+            <manifest>
+                <attribute name="Main-Class" value="Main"/>
+            </manifest>
+        </jar>
+    </target>
+	
+	<!-- Startup -->
+	<target name="start-script">
+		<echo file="build/start-Program.bat">
+			@echo off${line.separator}
+			${line.separator}
+			set CLASSPATH=%~dp0\Pill_Dispenser.jar;${line.separator}
+			${line.separator}
+			title "Pill Dispenser"${line.separator}
+			echo Starting "Pill Dispenser"${line.separator}
+			${line.separator}
+			java "Main"${line.separator}
+			pause
+		</echo>
+		
+
+		<!-- Format -->
+		<replaceregexp file="build/start-Program.bat"  match="[\t]+" replace="" flags="g"/>
+	</target>
+
+</project>

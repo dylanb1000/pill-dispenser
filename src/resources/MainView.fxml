@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+
+
+<GridPane 
+    xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"
+    styleClass="root">
+    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+    
+    <Text id="welcome-text" text="Pill Dispenser v1.0" 
+         GridPane.columnIndex="0" GridPane.rowIndex="0"
+        GridPane.columnSpan="1"/>
+        
+     <VBox spacing="10" alignment="center" 
+        GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <BarChart fx:id="chart" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+		  <xAxis>
+		    <CategoryAxis fx:id="xAxis" side="BOTTOM" />
+		  </xAxis>
+		  <yAxis>
+		    <NumberAxis fx:id="yAxis" side="LEFT" />
+		  </yAxis>
+		</BarChart>
+        <Button text="Log"     
+        onAction="#editMedication"/>
+    </VBox>
+    
+     <ListView fx:id="medicationList" onMouseClicked="#handleMouseClick"
+    	GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        
+    <HBox spacing="10" alignment="center" 
+        GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <Button text="Reset Medication"     
+        onAction="#resetMedication"/>
+        <Button text="Edit Medication"     
+        onAction="#editMedication"/>
+        <Button text="Add Medication"     
+        onAction="#addMedication"/>
+        <Button text="Delete Medication"     
+        onAction="#deleteMedication"/>
+    </HBox>
+    
+    <Text fx:id="info" text="" 
+         GridPane.columnIndex="0" GridPane.rowIndex="3"
+        GridPane.columnSpan="2"/>
+
+    
+        
+    <stylesheets>
+      <URL value="@Login.css" />
+    </stylesheets>
+
+</GridPane>
+

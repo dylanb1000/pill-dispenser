@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+
 public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -14,17 +15,13 @@ public class Main extends Application{
 		
 		
 		final FXMLLoader mainView = new FXMLLoader();
-		mainView.setLocation(getClass().getResource("resources/MainView.fxml"));
+		mainView.setLocation(getClass().getResource("/resources/MainView.fxml"));
 		mainView.setController(controller);
 		
 		
-		final GridPane grid=mainView.load();
+		GridPane grid=mainView.load();
 		Scene scene=new Scene(grid);
-		
-
 		primaryStage.setTitle("Pill Dispenser");
-		//icon
-		//primaryStage.getIcons().add(new Image());
         primaryStage.setScene(scene);
         primaryStage.show();
     }

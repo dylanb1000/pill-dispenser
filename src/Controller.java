@@ -15,6 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
  
 public class Controller implements Initializable{
@@ -37,13 +38,21 @@ public class Controller implements Initializable{
     }
     @FXML protected void editMedication(ActionEvent event) {
     	MedicationDialog medicationDialog=new MedicationDialog(model);
-    	medicationDialog.editDialogShow(medicationList);
+    	try {
+    		medicationDialog.editDialogShow(medicationList);
+    	} catch(ArrayIndexOutOfBoundsException e) {
+    		System.out.println("Nothing is selected");
+    	}
     	refreshList();
     	refreshChart();
     }
     @FXML protected void addMedication(ActionEvent event) {
     	MedicationDialog medicationDialog=new MedicationDialog(model);
-    	medicationDialog.addDialogShow();
+    	try {
+    		medicationDialog.addDialogShow();
+	    } catch(ArrayIndexOutOfBoundsException e) {
+			System.out.println("Nothing is selected");
+		}
     	refreshList();
     	refreshChart();
     }
@@ -69,14 +78,13 @@ public class Controller implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
     	observableList.setAll(model.getUser().getMedicationList());
     	medicationList.setItems(observableList);
-    	
     	xAxis.setLabel("Medication Name");
+    	xAxis.setTickLabelFill(Color.BLACK);
         yAxis.setLabel("Pill Count");
         yAxis.setTickUnit(1);
         yAxis.setAutoRanging(false);
         yAxis.setMinorTickVisible(false);
-        chart.setVerticalGridLinesVisible(false);
-        chart.setHorizontalGridLinesVisible(false);
+        yAxis.setTickLabelFill(Color.BLACK);
         chart.setLegendVisible(false);
         chart.setAnimated(false);
         chart.getData().add(mainSeries);
@@ -100,4 +108,6 @@ public class Controller implements Initializable{
     public void addToSeries(String medicationName,int medicationCount){
     	mainSeries.getData().add(new XYChart.Data<String,Integer>(medicationName,medicationCount));
     }
+    
+    
 }

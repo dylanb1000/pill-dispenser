@@ -3,6 +3,28 @@ root {
 }
 .root {
 -fx-background-image: url("background.jpg");
+-fx-background-size: cover;
+}
+.bar-chart {
+    -fx-alternative-row-visible: false;
+    -fx-alternative-column-visible: false;
+    -fx-horizontal-grid-lines-visible: false;
+    -fx-vertical-grid-lines-visible:false;
+    -fx-horizontal-zero-line-visible: false;
+    -fx-vertical-zero-line-visible: false;
+    -fx-legend-visible: false;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.axis {
+    -fx-border-color: transparent;
+    -fx-tick-mark-visible: true;
+    -fx-minor-tick-visible: false;
+    -fx-tick-labels-visible: true;
+
 }
 .label {
     -fx-font-size: 12px;
@@ -42,4 +64,7 @@ root {
     -fx-font-weight: bold;
     -fx-background-color: linear-gradient(#61a2b1, #2A5058);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+.list-cell {
+	-fx-alignment: center ;
 }

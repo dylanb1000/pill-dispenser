@@ -66,7 +66,7 @@ public class Medication {
 	//determines how medication will be displayed on the main list
 	@Override
 	public String toString() {
-		return this.name;
+		return this.name+" ["+this.slotNumber+"]";
 	}
 	
 	public String toStringInfo() {

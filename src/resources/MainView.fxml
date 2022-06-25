@@ -30,7 +30,7 @@
 		  </yAxis>
 		</BarChart>
         <Button text="Log"     
-        onAction="#editMedication"/>
+        onAction="#openLog"/>
     </VBox>
     
      <ListView fx:id="medicationList" onMouseClicked="#handleMouseClick"

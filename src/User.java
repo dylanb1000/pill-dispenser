@@ -8,6 +8,7 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String firstName;
 	private String lastName;
+	private Log log=new Log();
 	private List<Medication> medicationList=new ArrayList<Medication>();
 
 	public User(String firstName,String lastName) {
@@ -20,6 +21,10 @@ public class User implements Serializable{
 	}
 	public String getLastName() {
 		return lastName;
+	}
+	
+	public Log getLog(){
+		return this.log;
 	}
 	
 	public List<Medication> getMedicationList(){

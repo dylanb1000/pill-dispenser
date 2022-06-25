@@ -51,12 +51,12 @@ public class MedicationDialog extends Alert{
 		grid.add(rateLabel, 0, 4);
 		grid.add(rate, 1, 4);
 		dialog.setContent(grid);
-		this.setTitle("Add Medication");
 		dialog.getButtonTypes().add(ButtonType.CANCEL);
 		dialog.getButtonTypes().add(ButtonType.OK);
 	}
 	
 	public void addDialogShow() {
+		this.setTitle("Add Medication");
 		this.showAndWait().ifPresent(response -> {
 		    if (response == ButtonType.OK) {
 		    	Alert alert = new Alert(AlertType.WARNING);
@@ -101,6 +101,7 @@ public class MedicationDialog extends Alert{
 	}
 	
 	public void editDialogShow(ListView<Medication> medicationList) {
+		this.setTitle("Edit Medication");
 		int selectedIndex=medicationList.getSelectionModel().getSelectedIndex();
 		Medication med=model.getUser().getMedicationList().get(selectedIndex);
 		this.name.setText(med.getName());

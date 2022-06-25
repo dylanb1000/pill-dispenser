@@ -1,6 +1,11 @@
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +22,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
  
 public class Controller implements Initializable{
 	private Model model;
@@ -73,6 +79,11 @@ public class Controller implements Initializable{
     		System.out.println("Nothing is selected");
     	}
     }
+    
+    @FXML protected void openLog(ActionEvent event) {
+    	LogDialog logDialog=new LogDialog(model);
+    	logDialog.showAndWait();
+    }
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -91,6 +102,22 @@ public class Controller implements Initializable{
         for(Medication med:model.getUser().getMedicationList()) {
         	addToSeries(med.getName(),med.getCount());
         }
+        
+        final Timeline timeline = new Timeline(
+        	    new KeyFrame(
+        	        Duration.millis( 60000 ),
+        	        event -> {
+        	        	for(Medication medication:model.getUser().getMedicationList()) {
+        	        		checkToDispense(medication);
+        	        		System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        	        	}
+        	        }
+        	    )
+        	);
+        	timeline.setCycleCount( Animation.INDEFINITE );
+        	timeline.play();
+        
+        
 	}
 	public void refreshList() {
 		observableList.setAll(model.getUser().getMedicationList());
@@ -110,6 +137,19 @@ public class Controller implements Initializable{
     
     public void addToSeries(String medicationName,int medicationCount){
     	mainSeries.getData().add(new XYChart.Data<String,Integer>(medicationName,medicationCount));
+    }
+    
+    public void checkToDispense(Medication medication) {
+    	int hourNow=LocalDateTime.now().getHour();
+    	int minuteNow=LocalDateTime.now().getMinute();
+    	if(medication.getDispenseTime().getHour()==hourNow && medication.getDispenseTime().getMinute()==minuteNow) {
+    		//TODO dispense function/add to queue to dispense
+    		//adds entry to log(might pass to pi class)
+    		String name=medication.getName();
+    		String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    		model.getUser().getLog().addEntry(name, time);
+    	}
+    	
     }
     
     

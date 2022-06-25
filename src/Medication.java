@@ -2,16 +2,12 @@
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class Medication implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private int count;
 	private int slotNumber;
-	private List<Date> dateTaken=new ArrayList<Date>();
 	private LocalTime dispenseTime;
 	private int dispenseRate;
 	
@@ -32,11 +28,7 @@ public class Medication implements Serializable{
 	public int getCount() {
 		return this.count;
 	}
-	
-	public List<Date> getDateList(){
-		return this.dateTaken;
-	}
-	
+
 	public LocalTime getDispenseTime() {
 		return this.dispenseTime;
 	}
@@ -62,7 +54,6 @@ public class Medication implements Serializable{
 	}
 	
 	public void addEntry() {
-		dateTaken.add(new Date());
 		this.count--;
 	}
 	//determines how medication will be displayed on the main list

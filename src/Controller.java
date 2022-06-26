@@ -132,7 +132,11 @@ public class Controller implements Initializable{
 	}
 	
     @FXML public void handleMouseClick(MouseEvent mouse) {
-        info.setText(medicationList.getSelectionModel().getSelectedItem().toStringInfo());
+    	try {
+    		info.setText(medicationList.getSelectionModel().getSelectedItem().toStringInfo());
+    	} catch (Exception e) {
+    		
+    	}
     }
     
     public void addToSeries(String medicationName,int medicationCount){

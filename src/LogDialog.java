@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +14,8 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -58,8 +64,29 @@ public class LogDialog extends Alert{
 		    	model.getUser().getLog().getLog().clear();
 		    }
 		    else if(response == export) {
+		    	FileChooser fileChooser = new FileChooser();
+		    	 fileChooser.setTitle("Open Resource File");
+		    	 fileChooser.getExtensionFilters().addAll(
+		    	         new ExtensionFilter("Text Documents", "*.txt"));
+		    	 File selectedFile = fileChooser.showSaveDialog(this.getOwner());
+		    	 if (selectedFile != null) {
+		    		 LogToText(selectedFile);
+		    	 }
 		    	//TODO export log data as XLS
 		    }
 		});
+	}
+	
+	public void LogToText(File file) {
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+			for(Pair<String,String> info:model.getUser().getLog().getLog()) {
+		    	writer.write(info.getKey()+" : "+info.getValue()+"\n");
+		    }
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

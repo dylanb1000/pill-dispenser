@@ -11,8 +11,11 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 
 public class MedicationDialog extends Alert{
@@ -53,6 +56,8 @@ public class MedicationDialog extends Alert{
 		dialog.setContent(grid);
 		dialog.getButtonTypes().add(ButtonType.CANCEL);
 		dialog.getButtonTypes().add(ButtonType.OK);
+		Stage stage = (Stage) dialog.getScene().getWindow();
+		stage.getIcons().add(new Image(this.getClass().getResource("/resources/main_icon.png").toString()));
 	}
 	
 	public void addDialogShow() {

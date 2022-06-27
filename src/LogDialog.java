@@ -7,7 +7,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class LogDialog extends Alert{
@@ -39,5 +41,7 @@ public class LogDialog extends Alert{
 		dialog.getButtonTypes().add(ButtonType.CANCEL);
 		dialog.setHeaderText(null);
 		dialog.setGraphic(null);
+		Stage stage = (Stage) dialog.getScene().getWindow();
+		stage.getIcons().add(new Image(this.getClass().getResource("/resources/log_icon.png").toString()));
 	}
 }

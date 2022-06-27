@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application{
 	Model model=new Model();
+	Controller controller;
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		try {
@@ -19,7 +20,7 @@ public class Main extends Application{
 		}catch(Exception e) {
 			System.out.println("Not able to read data file");
 		}
-		Controller controller=new Controller(model);
+		this.controller=new Controller(model);
 		
 		
 		final FXMLLoader mainView = new FXMLLoader();
@@ -38,8 +39,9 @@ public class Main extends Application{
 	@Override
     public void stop() {
         try {
-			WriterReader.writeObjectToFile(this.model, new File(System.getProperty("user.dir")+"/data.ser"));
+        	WriterReader.writeObjectToFile(this.model, new File(System.getProperty("user.dir")+"/data.ser"));
 			System.out.println("Data saved successfully");
+        	controller.stopThread();
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Unable to save file.");

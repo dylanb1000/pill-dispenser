@@ -33,9 +33,15 @@ public class Controller implements Initializable{
     private XYChart.Series<String, Integer> mainSeries = new XYChart.Series<String, Integer>();
     @FXML private ListView<Medication> medicationList;
     ObservableList<Medication> observableList = FXCollections.observableArrayList();
+    private Machine machine;
+    private Thread t1;
+    
 
     public Controller(Model model) {
     	this.model=model;
+    	this.machine=new Machine(this.model);
+    	 Thread t1 = new Thread(this.machine);
+    	 t1.start();
     }
     @FXML protected void resetMedication(ActionEvent event) {
     	model.getUser().getMedicationList().clear();
@@ -108,8 +114,8 @@ public class Controller implements Initializable{
         	        Duration.millis( 60000 ),
         	        event -> {
         	        	for(Medication medication:model.getUser().getMedicationList()) {
-        	        		checkToDispense(medication);
         	        		System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        	        		checkToDispense(medication,machine);
         	        	}
         	        }
         	    )
@@ -143,18 +149,16 @@ public class Controller implements Initializable{
     	mainSeries.getData().add(new XYChart.Data<String,Integer>(medicationName,medicationCount));
     }
     
-    public void checkToDispense(Medication medication) {
+    public void checkToDispense(Medication medication,Machine machine) {
     	int hourNow=LocalDateTime.now().getHour();
     	int minuteNow=LocalDateTime.now().getMinute();
     	if(medication.getDispenseTime().getHour()==hourNow && medication.getDispenseTime().getMinute()==minuteNow) {
-    		//TODO dispense function/add to queue to dispense
-    		//adds entry to log(might pass to pi class)
-    		String name=medication.getName();
-    		String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-    		model.getUser().getLog().addEntry(name, time);
+    		System.out.println("Adding Medication to Queue");
+    		machine.addToMedicationQueue(medication); 
     	}
-    	
     }
     
-    
+    public void stopThread() {
+    	this.t1.interrupt();;
+    }
 }

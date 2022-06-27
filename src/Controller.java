@@ -88,7 +88,7 @@ public class Controller implements Initializable{
     
     @FXML protected void openLog(ActionEvent event) {
     	LogDialog logDialog=new LogDialog(model);
-    	logDialog.showAndWait();
+    	logDialog.showLog();
     }
 
 	@Override

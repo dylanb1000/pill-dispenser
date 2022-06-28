@@ -1,4 +1,3 @@
-
 import java.time.LocalTime;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -28,6 +27,9 @@ public class MedicationDialog extends Alert {
 	public MedicationDialog(Model model) {
 		super(Alert.AlertType.NONE);
 		this.model = model;
+		count.getProperties().put("vkType", "numeric");
+		slot.getProperties().put("vkType", "numeric");
+		rate.getProperties().put("vkType", "numeric");
 		DialogPane dialog = this.getDialogPane();
 		GridPane grid = new GridPane();
 		grid.setHgap(10);
@@ -99,7 +101,7 @@ public class MedicationDialog extends Alert {
 						alert.showAndWait();
 					}
 				} catch (NumberFormatException e) {
-					alert.setContentText("Count, Slot Number and Dispense rate must be a number.");
+					alert.setContentText("Count, Slot Number and Dispense rate must be a  whole number.");
 					alert.showAndWait();
 				}
 
@@ -160,7 +162,7 @@ public class MedicationDialog extends Alert {
 						alert.showAndWait();
 					}
 				} catch (NumberFormatException e) {
-					alert.setContentText("Count, Slot Number and Dispense rate must be a number.");
+					alert.setContentText("Count, Slot Number and Dispense rate must be a whole number.");
 					alert.showAndWait();
 				}
 

@@ -57,6 +57,13 @@ public class MedicationDialog extends Alert {
 		dialog.getButtonTypes().add(ButtonType.OK);
 		Stage stage = (Stage) dialog.getScene().getWindow();
 		stage.getIcons().add(new Image(this.getClass().getResource("/resources/main_icon.png").toString()));
+		
+		//removes focus on text elements when dialogpane is clicked
+		dialog.setOnMousePressed(event -> {
+	        if (!TextField.class.equals(event.getSource())) {
+	                  	dialog.requestFocus();
+	        }
+	});
 	}
 
 	public void addDialogShow() {

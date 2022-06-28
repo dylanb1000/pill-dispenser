@@ -19,7 +19,7 @@ public class Machine implements Runnable {
 	// steps motor needs to make 1 full revolution
 	private int stepsForRotation;
 	// initialize machine components
-	private final GpioController gpio = GpioFactory.getInstance();
+	/*private final GpioController gpio = GpioFactory.getInstance();
 	// Main Servo
 	private Pin pin0 = CommandArgumentParser.getPin(RaspiPin.class, RaspiPin.GPIO_00);
 	private GpioPinPwmOutput pwm0 = gpio.provisionSoftPwmOutputPin(pin0);
@@ -35,16 +35,16 @@ public class Machine implements Runnable {
 	// limit switch bottom
 	private GpioPinDigitalInput input2 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, PinPullResistance.PULL_UP);
 	// 0.1 milliseconds
-	private int sleep = 100;
+	private int sleep = 100;*/
 
 	public Machine(Model model) {
 		this.model = model;
-		gpio.setShutdownOptions(true, PinState.LOW, pins);
+		/*gpio.setShutdownOptions(true, PinState.LOW, pins);
 		// define stepper parameters before attempting to control motor
 		// anything lower than 2 ms does not work for my sample motor using single step
 		// sequence
 		motor.setStepInterval(2);
-		motor.setStepSequence(singleStepSequence());
+		motor.setStepSequence(singleStepSequence());*/
 	}
 
 	public Queue<Medication> getQueue() {
@@ -59,9 +59,9 @@ public class Machine implements Runnable {
 		Medication dispensedMed = queue.remove();
 		int slotNumber = dispensedMed.getSlotNumber();
 		rotateSlots(slotNumber);
-		tipActive();
-		tipToHome();
-		Thread.sleep(1000);
+		//tipActive();
+		//tipToHome();
+		//Thread.sleep(1000);
 		System.out.println("Dispensed: " + dispensedMed.getName());
 		// log
 		String name = dispensedMed.getName();
@@ -69,7 +69,7 @@ public class Machine implements Runnable {
 		model.getUser().getLog().addEntry(name, time);
 	}
 
-	public void tipToHome() {
+	/*public void tipToHome() {
 		while (input1.isLow()) {
 			try {
 				pwm0.setPwm(25);
@@ -91,7 +91,7 @@ public class Machine implements Runnable {
 				System.out.println("cant");
 			}
 		}
-	}
+	}*/
 
 	@Override
 	public void run() {
@@ -107,7 +107,7 @@ public class Machine implements Runnable {
 	public void rotateSlots(int slotNumber) {
 		int currentSlot = model.getCurrentSlot();
 		int difference = currentSlot - slotNumber;
-		motor.step((difference/ 6) * this.stepsForRotation);
+		//motor.step((difference/ 6) * this.stepsForRotation);
 		model.setCurrentSlot(slotNumber);
 	}
 
@@ -176,6 +176,6 @@ public class Machine implements Runnable {
 	}
 
 	public void stop() {
-		gpio.shutdown();
+		//gpio.shutdown();
 	}
 }

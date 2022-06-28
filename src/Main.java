@@ -31,6 +31,7 @@ public class Main extends Application {
 		primaryStage.setTitle("Pill Dispenser");
 		primaryStage.getIcons().add(new Image("resources/main_icon.png"));
 		primaryStage.setScene(scene);
+		primaryStage.setMaximized(true);
 		primaryStage.show();
 	}
 

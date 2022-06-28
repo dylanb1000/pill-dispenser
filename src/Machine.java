@@ -34,6 +34,8 @@ public class Machine implements Runnable {
 	private GpioPinDigitalInput input1 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, PinPullResistance.PULL_UP);
 	// limit switch bottom
 	private GpioPinDigitalInput input2 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, PinPullResistance.PULL_UP);
+	//relay
+	private GpioPinDigitalOutput relay = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_25, PinState.LOW);
 	// 0.1 milliseconds
 	private int sleep = 100;*/
 
@@ -59,8 +61,10 @@ public class Machine implements Runnable {
 		Medication dispensedMed = queue.remove();
 		int slotNumber = dispensedMed.getSlotNumber();
 		rotateSlots(slotNumber);
+		//pumpOn(true);
 		//tipActive();
 		//tipToHome();
+		//pumpOff(false);
 		//Thread.sleep(1000);
 		System.out.println("Dispensed: " + dispensedMed.getName());
 		// log
@@ -68,8 +72,17 @@ public class Machine implements Runnable {
 		String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 		model.getUser().getLog().addEntry(name, time);
 	}
+	
+	/*public void pumpOn(boolean bool) {
+		if(bool) {
+			relay.setState(PinState.HIGH);
+			}
+		else{
+			relay.setState(PinState.LOW);
+		}
+	}
 
-	/*public void tipToHome() {
+	public void tipToHome() {
 		while (input1.isLow()) {
 			try {
 				pwm0.setPwm(25);
@@ -174,7 +187,7 @@ public class Machine implements Runnable {
 		half_step_sequence[7] = (byte) 0b1001;
 		return half_step_sequence;
 	}
-
+	
 	public void stop() {
 		//gpio.shutdown();
 	}

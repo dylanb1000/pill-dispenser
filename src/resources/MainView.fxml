@@ -19,6 +19,14 @@
          GridPane.columnIndex="0" GridPane.rowIndex="0"
         GridPane.columnSpan="1"/>
         
+    <HBox alignment="bottom_right"
+    	GridPane.columnIndex="1" GridPane.rowIndex="0">
+        	<Button text="Log"     
+        	onAction="#openLog"/>
+        </HBox>
+        
+     
+        
      <VBox spacing="10" alignment="center" 
         GridPane.columnIndex="0" GridPane.rowIndex="1">
         <BarChart fx:id="chart" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
@@ -29,8 +37,6 @@
 		    <NumberAxis fx:id="yAxis" side="LEFT" />
 		  </yAxis>
 		</BarChart>
-        <Button text="Log"     
-        onAction="#openLog"/>
     </VBox>
     
      <ListView fx:id="medicationList" onMouseClicked="#handleMouseClick"

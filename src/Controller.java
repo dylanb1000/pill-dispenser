@@ -112,7 +112,7 @@ public class Controller implements Initializable {
 		xAxis.setLabel("Medication Name");
 		xAxis.setTickLabelFill(Color.BLACK);
 		yAxis.setLabel("Pill Count");
-		yAxis.setTickUnit(1);
+		yAxis.setTickUnit(10);
 		yAxis.setAutoRanging(false);
 		yAxis.setMinorTickVisible(false);
 		yAxis.setTickLabelFill(Color.BLACK);

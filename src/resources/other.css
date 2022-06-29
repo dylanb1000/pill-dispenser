@@ -1,10 +1,6 @@
 root { 
     display: block;
 }
-.root {
--fx-background-image: url("background.png");
--fx-background-size: cover;
-}
 .bar-chart {
     -fx-alternative-row-visible: false;
     -fx-alternative-column-visible: false;
@@ -80,4 +76,3 @@ root {
 .text-field{
 	-fx-font-size:20;
 }
-

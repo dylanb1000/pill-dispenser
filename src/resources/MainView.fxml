@@ -44,17 +44,17 @@
         
     <HBox spacing="10" alignment="center" 
         GridPane.columnIndex="1" GridPane.rowIndex="2">
-        <Button text="Reset Medication"     
+        <Button text="Reset"     
         onAction="#resetMedication"/>
-        <Button text="Edit Medication"     
+        <Button text="Edit"     
         onAction="#editMedication"/>
-        <Button text="Add Medication"     
+        <Button text="Add"     
         onAction="#addMedication"/>
-        <Button text="Delete Medication"     
+        <Button text="Delete"     
         onAction="#deleteMedication"/>
     </HBox>
     
-    <Text fx:id="info" text="" 
+    <Text fx:id="info" text=""
          GridPane.columnIndex="0" GridPane.rowIndex="3"
         GridPane.columnSpan="2"/>
 

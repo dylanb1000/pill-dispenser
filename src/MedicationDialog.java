@@ -27,6 +27,7 @@ public class MedicationDialog extends Alert {
 	public MedicationDialog(Model model) {
 		super(Alert.AlertType.NONE);
 		this.model = model;
+		this.getDialogPane().getStylesheets().add("resources/other.css");
 		count.getProperties().put("vkType", "numeric");
 		slot.getProperties().put("vkType", "numeric");
 		rate.getProperties().put("vkType", "numeric");
@@ -59,7 +60,7 @@ public class MedicationDialog extends Alert {
 		dialog.getButtonTypes().add(ButtonType.OK);
 		Stage stage = (Stage) dialog.getScene().getWindow();
 		stage.getIcons().add(new Image(this.getClass().getResource("/resources/main_icon.png").toString()));
-		
+		stage.setAlwaysOnTop(true);
 		//removes focus on text elements when dialogpane is clicked
 		dialog.setOnMousePressed(event -> {
 	        if (!TextField.class.equals(event.getSource())) {
@@ -73,6 +74,7 @@ public class MedicationDialog extends Alert {
 		this.showAndWait().ifPresent(response -> {
 			if (response == ButtonType.OK) {
 				Alert alert = new Alert(AlertType.WARNING);
+				alert.getDialogPane().getStylesheets().add("resources/other.css");
 				alert.setTitle("Warning Dialog");
 				alert.setHeaderText("Incorrect Information!");
 				try {
@@ -133,6 +135,7 @@ public class MedicationDialog extends Alert {
 		this.showAndWait().ifPresent(response -> {
 			if (response == ButtonType.OK) {
 				Alert alert = new Alert(AlertType.WARNING);
+				alert.getDialogPane().getStylesheets().add("resources/other.css");
 				alert.setTitle("Warning Dialog");
 				alert.setHeaderText("Incorrect Information!");
 				try {

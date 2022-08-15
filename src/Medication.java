@@ -66,7 +66,7 @@ public class Medication implements Serializable {
 	}
 
 	public String toStringInfo() {
-		return MessageFormat.format("NAME:{0} COUNT:{1} SLOT_NUMBER:{2} DISPENSE_TIME:{3} DISPENSE_RATE:{4}", name,
+		return MessageFormat.format("NAME:{0}, COUNT:{1}, SLOT_NUMBER:{2}, DISPENSE_TIME:{3}, DISPENSE_RATE:{4}", name,
 				count, slotNumber, dispenseTime.toString(), dispenseRate);
 	}
 

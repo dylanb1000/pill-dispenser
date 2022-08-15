@@ -110,13 +110,15 @@ public class Controller implements Initializable {
 		observableList.setAll(model.getUser().getMedicationList());
 		medicationList.setItems(observableList);
 		xAxis.setLabel("Medication Name");
-		xAxis.setTickLabelFill(Color.BLACK);
+		xAxis.setTickLabelFill(Color.WHITE);
 		yAxis.setLabel("Pill Count");
 		yAxis.setTickUnit(1);
 		yAxis.setAutoRanging(false);
 		yAxis.setMinorTickVisible(false);
-		yAxis.setTickLabelFill(Color.BLACK);
+		yAxis.setTickLabelFill(Color.WHITE);
 		chart.setLegendVisible(false);
+		chart.setHorizontalGridLinesVisible(false);
+		chart.setVerticalGridLinesVisible(false);
 		chart.setAnimated(false);
 		chart.getData().add(mainSeries);
 		for (Medication med : model.getUser().getMedicationList()) {

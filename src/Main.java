@@ -28,7 +28,7 @@ public class Main extends Application {
 
 		GridPane grid = mainView.load();
 		Scene scene = new Scene(grid);
-		primaryStage.setTitle("Pill Dispenser");
+		primaryStage.setTitle("Pill Dispenser v1.0");
 		primaryStage.getIcons().add(new Image("resources/main_icon.png"));
 		primaryStage.setScene(scene);
 		primaryStage.setMaximized(true);

@@ -31,7 +31,7 @@ public class Main extends Application {
 		primaryStage.setTitle("Pill Dispenser v1.0");
 		primaryStage.getIcons().add(new Image("resources/main_icon.png"));
 		primaryStage.setScene(scene);
-		primaryStage.setMaximized(true);
+		primaryStage.setFullScreen(true);
 		primaryStage.show();
 	}
 
@@ -52,21 +52,9 @@ public class Main extends Application {
 	}
 }
 //notes
-/*-One User total
- *-6 trays total
- *reset button to initialize all trays(All at once)(user manually types info on screen)
- *Edit button to edit individual medication
- *Add time field to medication to determine when to dispense
- *add dispense count to medication field to determine how much to dispense
- *
- *
- *right side of screen displays medication and stats with edit buttons below
- *left side of screen will show stats such as visual volume of pills,alert when pills are low,log,etc..
- *potential cost of pills and stats?
- *
- *limit only 6 medications
- *No medications named the same
- *implement log*/
+/*-fix combobox to allow scrolling on pi
+ *-enlarge info text
+ *-*/
 
 
 

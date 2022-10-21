@@ -27,8 +27,9 @@ public class LogDialog extends Alert {
 	ObservableList<String> observableList = FXCollections.observableArrayList();
 
 	public LogDialog(Model model) {
-		super(AlertType.INFORMATION);
+		super(AlertType.NONE);
 		this.model = model;
+		this.getDialogPane().getStylesheets().add("resources/other.css");
 		this.setTitle("Log");
 		ListView<String> logList = new ListView<String>();
 		List<String> logInfo = new ArrayList<String>();

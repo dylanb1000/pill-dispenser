@@ -4,8 +4,13 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -26,7 +31,7 @@ public class Main extends Application {
 		mainView.setLocation(getClass().getResource("/resources/MainView.fxml"));
 		mainView.setController(controller);
 
-		GridPane grid = mainView.load();
+		VBox grid = mainView.load();
 		Scene scene = new Scene(grid);
 		primaryStage.setTitle("Pill Dispenser v1.0");
 		primaryStage.getIcons().add(new Image("resources/main_icon.png"));

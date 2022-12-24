@@ -17,8 +17,14 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -32,8 +38,21 @@ public class Controller implements Initializable {
 	private CategoryAxis xAxis;
 	@FXML
 	private NumberAxis yAxis;
+	//test
+	@FXML 
+	private TabPane tabPane;
+	@FXML 
+	private Tab MainPage;
+	@FXML
+	private Tab Inventory;
 	@FXML
 	private BarChart<String, Integer> chart;
+	@FXML 
+	private MenuBar menuBar;
+	@FXML
+	private Menu fileMenu;
+	@FXML
+	private MenuItem newMenuItem;
 	private XYChart.Series<String, Integer> mainSeries = new XYChart.Series<String, Integer>();
 	@FXML
 	private ListView<Medication> medicationList;
@@ -109,6 +128,7 @@ public class Controller implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		observableList.setAll(model.getUser().getMedicationList());
 		medicationList.setItems(observableList);
+		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		xAxis.setLabel("Medication Name");
 		xAxis.setTickLabelFill(Color.WHITE);
 		yAxis.setLabel("Pill Count");

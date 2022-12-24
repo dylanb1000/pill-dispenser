@@ -71,6 +71,8 @@ public class Machine implements Runnable {
 		String name = dispensedMed.getName();
 		String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 		model.getUser().getLog().addEntry(name, time);
+		//decrement count 
+		dispensedMed.setCount(dispensedMed.getCount()-1);
 	}
 	
 	/*public void pumpOn(boolean bool) {

@@ -31,7 +31,7 @@ public class Main extends Application {
 		mainView.setLocation(getClass().getResource("/resources/MainView.fxml"));
 		mainView.setController(controller);
 
-		VBox grid = mainView.load();
+		BorderPane grid = mainView.load();
 		Scene scene = new Scene(grid);
 		primaryStage.setTitle("Pill Dispenser v1.0");
 		primaryStage.getIcons().add(new Image("resources/main_icon.png"));

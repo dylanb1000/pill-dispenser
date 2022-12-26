@@ -16,6 +16,7 @@ import com.pi4j.util.CommandArgumentParser;
 public class Machine implements Runnable {
 	private Queue<Medication> queue = new LinkedList<Medication>();
 	private Model model;
+	private Controller controller;
 	// steps motor needs to make 1 full revolution
 	private int stepsForRotation;
 	// initialize machine components
@@ -39,8 +40,9 @@ public class Machine implements Runnable {
 	// 0.1 milliseconds
 	private int sleep = 100;*/
 
-	public Machine(Model model) {
+	public Machine(Model model,Controller controller) {
 		this.model = model;
+		this.controller = controller;
 		/*gpio.setShutdownOptions(true, PinState.LOW, pins);
 		// define stepper parameters before attempting to control motor
 		// anything lower than 2 ms does not work for my sample motor using single step
@@ -71,7 +73,10 @@ public class Machine implements Runnable {
 		String name = dispensedMed.getName();
 		String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 		model.getUser().getLog().addEntry(name, time);
-		//decrement count 
+		//refresh gui when dispensed
+		this.controller.refreshList();
+		this.controller.refreshChart();
+		//decrement count
 		dispensedMed.setCount(dispensedMed.getCount()-1);
 	}
 	

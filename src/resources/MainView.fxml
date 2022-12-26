@@ -21,7 +21,7 @@
 		      <menus>
 		        <Menu fx:id="fileMenu" mnemonicParsing="true" text="File">
 		          <items>
-		            <MenuItem fx:id="newMenuItem" mnemonicParsing="true" text="Exit" />
+		            <MenuItem fx:id="newMenuItem" mnemonicParsing="true" text="Exit" onAction="#exit"/>
 		          </items>
 		        </Menu>
 		      </menus>

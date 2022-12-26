@@ -14,13 +14,15 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-
+//TODO make a tab?
 public class MedicationDialog extends Alert {
 	TextField name = new TextField();
 	TextField count = new TextField();
 	TextField slot = new TextField();
-	ComboBox<Integer> hour = new ComboBox<Integer>();
-	ComboBox<Integer> min = new ComboBox<Integer>();
+	TextField hour = new TextField();
+	TextField min = new TextField();
+	//ComboBox<Integer> hour = new ComboBox<Integer>();
+	//ComboBox<Integer> min = new ComboBox<Integer>();
 	TextField rate = new TextField();
 	Model model;
 
@@ -31,6 +33,8 @@ public class MedicationDialog extends Alert {
 		count.getProperties().put("vkType", "numeric");
 		slot.getProperties().put("vkType", "numeric");
 		rate.getProperties().put("vkType", "numeric");
+		hour.getProperties().put("vkType", "numeric");
+		min.getProperties().put("vkType", "numeric");
 		DialogPane dialog = this.getDialogPane();
 		GridPane grid = new GridPane();
 		grid.setHgap(10);
@@ -46,7 +50,6 @@ public class MedicationDialog extends Alert {
 		grid.add(slotLabel, 0, 2);
 		grid.add(slot, 1, 2);
 		Label timeLabel = new Label("Dispense Time");
-		addTimeOption(hour, min);
 		Label hourLabel = new Label("H: ");
 		Label minLabel = new Label("M: ");
 		HBox timeBox = new HBox(hourLabel, hour, minLabel, min);
@@ -84,8 +87,7 @@ public class MedicationDialog extends Alert {
 								String name = this.name.getText();
 								int count = Integer.parseInt(this.count.getText());
 								int slotnumber = Integer.parseInt(slot.getText());
-								LocalTime time = LocalTime.of((Integer) hour.getSelectionModel().getSelectedItem(),
-										(Integer) min.getSelectionModel().getSelectedItem());
+								LocalTime time = LocalTime.of(Integer.parseInt(hour.getText()),Integer.parseInt(min.getText()));
 								int dispenseRate = Integer.parseInt(rate.getText());
 								model.getUser().getMedicationList()
 										.add(new Medication(name, count, slotnumber, time, dispenseRate));
@@ -120,16 +122,8 @@ public class MedicationDialog extends Alert {
 		this.name.setText(med.getName());
 		this.count.setText(String.valueOf(med.getCount()));
 		this.slot.setText(String.valueOf(med.getSlotNumber()));
-		for (Object number : this.hour.getItems()) {
-			if ((Integer) number == med.getDispenseTime().getHour()) {
-				hour.getSelectionModel().select((Integer) number);
-			}
-		}
-		for (Object number : this.min.getItems()) {
-			if ((Integer) number == med.getDispenseTime().getMinute()) {
-				min.getSelectionModel().select((Integer) number);
-			}
-		}
+		this.hour.setText(String.valueOf(med.getDispenseTime().getHour()));
+		this.min.setText(String.valueOf(med.getDispenseTime().getMinute()));
 		this.rate.setText(String.valueOf(med.getDispenseRate()));
 		// TODO catch ArrayIndexOutOfBoundsException when nothing is selected to edit
 		this.showAndWait().ifPresent(response -> {
@@ -146,8 +140,7 @@ public class MedicationDialog extends Alert {
 								String name = this.name.getText();
 								int count = Integer.parseInt(this.count.getText());
 								int slotnumber = Integer.parseInt(slot.getText());
-								LocalTime time = LocalTime.of((Integer) hour.getSelectionModel().getSelectedItem(),
-										(Integer) min.getSelectionModel().getSelectedItem());
+								LocalTime time = LocalTime.of(Integer.parseInt(hour.getText()),Integer.parseInt(min.getText()));
 								int dispenseRate = Integer.parseInt(rate.getText());
 								model.getUser().getMedicationList().set(selectedIndex,
 										new Medication(name, count, slotnumber, time, dispenseRate));
@@ -200,18 +193,4 @@ public class MedicationDialog extends Alert {
 		return (slotNumber > 6 || slotNumber < 1);
 	}
 
-	public void addTimeOption(ComboBox<Integer> hour, ComboBox<Integer> min) {
-		ObservableList<Integer> hourList = FXCollections.observableArrayList();
-		ObservableList<Integer> minuteList = FXCollections.observableArrayList();
-		for (int i = 0; i < 24; i++) {
-			hourList.add(i);
-		}
-		for (int i = 0; i < 60; i++) {
-			minuteList.add(i);
-		}
-		hour.setItems(hourList);
-		min.setItems(minuteList);
-		hour.getSelectionModel().select(0);
-		min.getSelectionModel().select(0);
-	}
 }

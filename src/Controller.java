@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -62,7 +63,7 @@ public class Controller implements Initializable {
 
 	public Controller(Model model) {
 		this.model = model;
-		this.machine = new Machine(this.model);
+		this.machine = new Machine(this.model, this);
 		Thread t1 = new Thread(this.machine);
 		t1.start();
 	}
@@ -123,6 +124,11 @@ public class Controller implements Initializable {
 		LogDialog logDialog = new LogDialog(model);
 		logDialog.showLog();
 	}
+	
+	@FXML 
+	protected void exit() {
+		Platform.exit();
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -159,6 +165,11 @@ public class Controller implements Initializable {
 	public void refreshList() {
 		observableList.setAll(model.getUser().getMedicationList());
 		medicationList.setItems(observableList);
+		try {
+			info.setText(medicationList.getSelectionModel().getSelectedItem().toStringInfo());
+		} catch (Exception e) {
+			info.setText("");
+		}
 	}
 
 	public void refreshChart() {
@@ -173,7 +184,7 @@ public class Controller implements Initializable {
 		try {
 			info.setText(medicationList.getSelectionModel().getSelectedItem().toStringInfo());
 		} catch (Exception e) {
-
+			info.setText("");
 		}
 	}
 

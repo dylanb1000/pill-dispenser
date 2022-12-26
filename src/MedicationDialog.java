@@ -14,7 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-//TODO make a tab?
+
 public class MedicationDialog extends Alert {
 	TextField name = new TextField();
 	TextField count = new TextField();
@@ -84,6 +84,7 @@ public class MedicationDialog extends Alert {
 					if (checkSlotRange(Integer.parseInt(slot.getText())) == false) {
 						if (checkName(name.getText()) == false) {
 							if (checkSlot(Integer.parseInt(slot.getText())) == false) {
+								if(checkTimeRange(Integer.parseInt(hour.getText()),Integer.parseInt(min.getText())) == true) {
 								String name = this.name.getText();
 								int count = Integer.parseInt(this.count.getText());
 								int slotnumber = Integer.parseInt(slot.getText());
@@ -91,7 +92,11 @@ public class MedicationDialog extends Alert {
 								int dispenseRate = Integer.parseInt(rate.getText());
 								model.getUser().getMedicationList()
 										.add(new Medication(name, count, slotnumber, time, dispenseRate));
-
+								}
+								else {
+									alert.setContentText("Time is out of range.");
+									alert.showAndWait();
+								}
 							} else {
 								alert.setContentText("Slot number is already occupied.");
 								alert.showAndWait();
@@ -137,6 +142,7 @@ public class MedicationDialog extends Alert {
 						if (checkName(name.getText()) == false || med.getName().equals(name.getText())) {
 							if (checkSlot(Integer.parseInt(slot.getText())) == false
 									|| med.getSlotNumber() == Integer.parseInt(slot.getText())) {
+								if(checkTimeRange(Integer.parseInt(hour.getText()),Integer.parseInt(min.getText())) == true) {
 								String name = this.name.getText();
 								int count = Integer.parseInt(this.count.getText());
 								int slotnumber = Integer.parseInt(slot.getText());
@@ -144,7 +150,11 @@ public class MedicationDialog extends Alert {
 								int dispenseRate = Integer.parseInt(rate.getText());
 								model.getUser().getMedicationList().set(selectedIndex,
 										new Medication(name, count, slotnumber, time, dispenseRate));
-
+								}
+								else {
+									alert.setContentText("Time is out of range.");
+									alert.showAndWait();
+								}
 							} else {
 								alert.setContentText("Slot number is already occupied.");
 								alert.showAndWait();
@@ -191,6 +201,10 @@ public class MedicationDialog extends Alert {
 
 	public boolean checkSlotRange(int slotNumber) {
 		return (slotNumber > 6 || slotNumber < 1);
+	}
+	
+	public boolean checkTimeRange(int hour, int min) {
+		return (hour>=0 && hour<=23 && min>=0 && min<=59);
 	}
 
 }

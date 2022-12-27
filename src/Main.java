@@ -52,8 +52,8 @@ public class Main extends Application {
 	}
 }
 //notes
-/*-Make Medication Dialog a tab
- * -add time constraints to time option in dialog(will be chagned to tab later)
+/*-Make Medication Dialog not disappear when alert warning is shown
+ * -decide what functions to put in menubar
  *-enlarge info text
  *-*/
 

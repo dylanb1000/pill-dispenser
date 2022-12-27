@@ -13,6 +13,8 @@ import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.util.CommandArgumentParser;
 
+import javafx.application.Platform;
+
 public class Machine implements Runnable {
 	private Queue<Medication> queue = new LinkedList<Medication>();
 	private Model model;
@@ -73,11 +75,15 @@ public class Machine implements Runnable {
 		String name = dispensedMed.getName();
 		String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 		model.getUser().getLog().addEntry(name, time);
-		//refresh gui when dispensed
-		this.controller.refreshList();
-		this.controller.refreshChart();
 		//decrement count
 		dispensedMed.setCount(dispensedMed.getCount()-1);
+		//refresh gui when dispensed(gui stuff in seperate thread)
+		Platform.runLater(new Runnable() {
+		    @Override
+		    public void run() {
+				controller.refreshProgram();
+		    }
+		});
 	}
 	
 	/*public void pumpOn(boolean bool) {

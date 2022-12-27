@@ -1,6 +1,12 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
@@ -29,7 +35,10 @@ import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 public class Controller implements Initializable {
 	private Model model;
@@ -39,13 +48,16 @@ public class Controller implements Initializable {
 	private CategoryAxis xAxis;
 	@FXML
 	private NumberAxis yAxis;
-	//test
 	@FXML 
 	private TabPane tabPane;
 	@FXML 
 	private Tab MainPage;
 	@FXML
 	private Tab Inventory;
+	@FXML
+	private Tab Log;
+	@FXML
+	private ListView<String> logList;
 	@FXML
 	private BarChart<String, Integer> chart;
 	@FXML 
@@ -58,6 +70,7 @@ public class Controller implements Initializable {
 	@FXML
 	private ListView<Medication> medicationList;
 	ObservableList<Medication> observableList = FXCollections.observableArrayList();
+	ObservableList<String> observableListLog = FXCollections.observableArrayList();
 	private Machine machine;
 	private Thread t1;
 
@@ -71,8 +84,7 @@ public class Controller implements Initializable {
 	@FXML
 	protected void resetMedication(ActionEvent event) {
 		model.getUser().getMedicationList().clear();
-		refreshList();
-		refreshChart();
+		refreshProgram();
 	}
 
 	@FXML
@@ -83,8 +95,7 @@ public class Controller implements Initializable {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println("Nothing is selected");
 		}
-		refreshList();
-		refreshChart();
+		refreshProgram();
 	}
 
 	@FXML
@@ -95,8 +106,7 @@ public class Controller implements Initializable {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println("Nothing is selected");
 		}
-		refreshList();
-		refreshChart();
+		refreshProgram();
 	}
 
 	@FXML
@@ -111,18 +121,37 @@ public class Controller implements Initializable {
 			Optional<ButtonType> result = confirm.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				model.getUser().getMedicationList().remove(medicationList.getSelectionModel().getSelectedIndex());
-				refreshList();
-				refreshChart();
+				refreshProgram();
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println("Nothing is selected");
 		}
 	}
-
+	
 	@FXML
-	protected void openLog(ActionEvent event) {
-		LogDialog logDialog = new LogDialog(model);
-		logDialog.showLog();
+	public void clearLog() {
+		model.getUser().getLog().getLog().clear();
+		refreshProgram();
+	}
+	
+	@FXML
+	public void exportLog() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Resource File");
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Documents", "*.txt"));
+		File selectedFile = fileChooser.showSaveDialog(null);
+		if (selectedFile != null) {
+			try {
+				BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile));
+				for (Pair<String, String> info : model.getUser().getLog().getLog()) {
+					writer.write(info.getKey() + " : " + info.getValue() + "\n");
+				}
+				writer.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@FXML 
@@ -134,7 +163,18 @@ public class Controller implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		observableList.setAll(model.getUser().getMedicationList());
 		medicationList.setItems(observableList);
+		
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+		
+		List<String> logInfo = new ArrayList<String>();
+		for (Pair<String, String> info : model.getUser().getLog().getLog()) {
+			logInfo.add(info.getKey() + " : " + info.getValue());
+		}
+		observableListLog.setAll(logInfo);
+		logList.setItems(observableListLog);
+
+
+
 		xAxis.setLabel("Medication Name");
 		xAxis.setTickLabelFill(Color.WHITE);
 		yAxis.setLabel("Pill Count");
@@ -171,12 +211,24 @@ public class Controller implements Initializable {
 			info.setText("");
 		}
 	}
-
+	public void refreshLog() {
+		List<String> logInfo = new ArrayList<String>();
+		for (Pair<String, String> info : model.getUser().getLog().getLog()) {
+			logInfo.add(info.getKey() + " : " + info.getValue());
+		}
+		observableListLog.setAll(logInfo);
+		logList.setItems(observableListLog);
+	}
 	public void refreshChart() {
 		mainSeries.getData().clear();
 		for (Medication med : model.getUser().getMedicationList()) {
 			addToSeries(med.getName(), med.getCount());
 		}
+	}
+	public void refreshProgram() {
+		refreshList();
+		refreshChart();
+		refreshLog();
 	}
 
 	@FXML

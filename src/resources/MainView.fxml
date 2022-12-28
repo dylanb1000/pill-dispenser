@@ -21,7 +21,9 @@
 		      <menus>
 		        <Menu fx:id="fileMenu" mnemonicParsing="true" text="File">
 		          <items>
-		            <MenuItem fx:id="newMenuItem" mnemonicParsing="true" text="Exit" onAction="#exit"/>
+		            <MenuItem fx:id="item1" mnemonicParsing="true" text="Exit" onAction="#exit"/>
+		            <MenuItem fx:id="item2" mnemonicParsing="true" text="Clear Log" onAction="#clearLog"/>
+		            <MenuItem fx:id="item3" mnemonicParsing="true" text="Export Log" onAction="#exportLog"/>
 		          </items>
 		        </Menu>
 		      </menus>
@@ -66,12 +68,6 @@
 		        <Tab fx:id="Log" text="Log">
 		        	<GridPane xmlns:fx="http://javafx.com/fxml" id="grid-pane" alignment="center" hgap="10" vgap="10" styleClass="root"> <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>	
 		        		<ListView fx:id="logList" minWidth="500" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-	        			<HBox spacing="10" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="1">
-					        <Button text="Clear"     
-					        onAction="#clearLog"/>
-					        <Button text="Export"     
-					        onAction="#exportLog"/>
-				    	</HBox>
 		        	</GridPane>
 		        </Tab>
 		        

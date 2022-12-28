@@ -40,13 +40,13 @@
 					        
 					    <HBox spacing="10" alignment="center" 
 					        GridPane.columnIndex="1" GridPane.rowIndex="2">
-					        <Button text="Reset"     
+					        <Button text="Reset" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS"     
 					        onAction="#resetMedication"/>
-					        <Button text="Edit"     
+					        <Button text="Edit" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS"      
 					        onAction="#editMedication"/>
-					        <Button text="Add"     
+					        <Button text="Add" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS"      
 					        onAction="#addMedication"/>
-					        <Button text="Delete"     
+					        <Button text="Delete" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS"      
 					        onAction="#deleteMedication"/>
 					    </HBox>
 					    

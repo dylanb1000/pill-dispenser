@@ -250,7 +250,9 @@ public class Controller implements Initializable {
 		if (medication.getDispenseTime().getHour() == hourNow
 				&& medication.getDispenseTime().getMinute() == minuteNow) {
 			System.out.println("Adding Medication to Queue");
-			machine.addToMedicationQueue(medication);
+			for(int i=0;i<medication.getDispenseRate();i++) {
+				machine.addToMedicationQueue(medication);
+			}
 		}
 	}
 

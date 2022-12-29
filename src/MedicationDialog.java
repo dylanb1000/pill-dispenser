@@ -2,8 +2,10 @@ import java.time.LocalTime;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
@@ -16,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class MedicationDialog extends Alert {
+	DialogPane dialog = this.getDialogPane();
 	TextField name = new TextField();
 	TextField count = new TextField();
 	TextField slot = new TextField();
@@ -35,7 +38,6 @@ public class MedicationDialog extends Alert {
 		rate.getProperties().put("vkType", "numeric");
 		hour.getProperties().put("vkType", "numeric");
 		min.getProperties().put("vkType", "numeric");
-		DialogPane dialog = this.getDialogPane();
 		GridPane grid = new GridPane();
 		grid.setHgap(10);
 		grid.setVgap(10);
@@ -74,51 +76,59 @@ public class MedicationDialog extends Alert {
 
 	public void addDialogShow() {
 		this.setTitle("Add Medication");
-		this.showAndWait().ifPresent(response -> {
-			if (response == ButtonType.OK) {
 				Alert alert = new Alert(AlertType.WARNING);
+				Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+				stage.setAlwaysOnTop(true);
 				alert.getDialogPane().getStylesheets().add("resources/other.css");
 				alert.setTitle("Warning Dialog");
 				alert.setHeaderText("Incorrect Information!");
-				try {
-					if (checkSlotRange(Integer.parseInt(slot.getText())) == false) {
-						if (checkName(name.getText()) == false) {
-							if (checkSlot(Integer.parseInt(slot.getText())) == false) {
-								if(checkTimeRange(Integer.parseInt(hour.getText()),Integer.parseInt(min.getText())) == true) {
-								String name = this.name.getText();
-								int count = Integer.parseInt(this.count.getText());
-								int slotnumber = Integer.parseInt(slot.getText());
-								LocalTime time = LocalTime.of(Integer.parseInt(hour.getText()),Integer.parseInt(min.getText()));
-								int dispenseRate = Integer.parseInt(rate.getText());
-								model.getUser().getMedicationList()
-										.add(new Medication(name, count, slotnumber, time, dispenseRate));
-								}
-								else {
-									alert.setContentText("Time is out of range.");
+				dialog.lookupButton(ButtonType.OK).addEventFilter(
+				    ActionEvent.ACTION, 
+				    event -> {
+				    	try {
+				    		System.out.println("yep");
+							if (checkSlotRange(Integer.parseInt(slot.getText())) == false) {
+								if (checkName(name.getText()) == false) {
+									if (checkSlot(Integer.parseInt(slot.getText())) == false) {
+										if(checkTimeRange(Integer.parseInt(hour.getText()),Integer.parseInt(min.getText())) == true) {
+										String name = this.name.getText();
+										int count = Integer.parseInt(this.count.getText());
+										int slotnumber = Integer.parseInt(slot.getText());
+										LocalTime time = LocalTime.of(Integer.parseInt(hour.getText()),Integer.parseInt(min.getText()));
+										int dispenseRate = Integer.parseInt(rate.getText());
+										model.getUser().getMedicationList()
+												.add(new Medication(name, count, slotnumber, time, dispenseRate));
+										}
+										else {
+											alert.setContentText("Time is out of range.");
+											alert.showAndWait();
+											event.consume();
+										}
+									} else {
+										alert.setContentText("Slot number is already occupied.");
+										alert.showAndWait();
+										event.consume();
+									}
+								} else {
+									alert.setContentText("Medication cannot have the same name as another medication.");
 									alert.showAndWait();
+									event.consume();
 								}
 							} else {
-								alert.setContentText("Slot number is already occupied.");
+								alert.setContentText("Slot number must be between 1-6.");
 								alert.showAndWait();
+								event.consume();
 							}
-						} else {
-							alert.setContentText("Medication cannot have the same name as another medication.");
+						} catch (NumberFormatException e) {
+							alert.setContentText("Count, Slot Number and Dispense rate must be a  whole number.");
 							alert.showAndWait();
+							event.consume();
 						}
-					} else {
-						alert.setContentText("Slot number must be between 1-6.");
-						alert.showAndWait();
-					}
-				} catch (NumberFormatException e) {
-					alert.setContentText("Count, Slot Number and Dispense rate must be a  whole number.");
-					alert.showAndWait();
-				}
+				    }
+				);
+				this.showAndWait();
+			} 
 
-			} else if (response == ButtonType.CANCEL) {
-				this.close();
-			}
-		});
-	}
 
 	public void editDialogShow(ListView<Medication> medicationList) {
 		this.setTitle("Edit Medication");
@@ -130,13 +140,15 @@ public class MedicationDialog extends Alert {
 		this.hour.setText(String.valueOf(med.getDispenseTime().getHour()));
 		this.min.setText(String.valueOf(med.getDispenseTime().getMinute()));
 		this.rate.setText(String.valueOf(med.getDispenseRate()));
-		// TODO catch ArrayIndexOutOfBoundsException when nothing is selected to edit
-		this.showAndWait().ifPresent(response -> {
-			if (response == ButtonType.OK) {
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.getDialogPane().getStylesheets().add("resources/other.css");
-				alert.setTitle("Warning Dialog");
-				alert.setHeaderText("Incorrect Information!");
+		Alert alert = new Alert(AlertType.WARNING);
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.setAlwaysOnTop(true);
+		alert.getDialogPane().getStylesheets().add("resources/other.css");
+		alert.setTitle("Warning Dialog");
+		alert.setHeaderText("Incorrect Information!");
+		dialog.lookupButton(ButtonType.OK).addEventFilter(
+		    ActionEvent.ACTION, 
+		    event -> {
 				try {
 					if (checkSlotRange(Integer.parseInt(slot.getText())) == false) {
 						if (checkName(name.getText()) == false || med.getName().equals(name.getText())) {
@@ -154,28 +166,31 @@ public class MedicationDialog extends Alert {
 								else {
 									alert.setContentText("Time is out of range.");
 									alert.showAndWait();
+									event.consume();
 								}
 							} else {
 								alert.setContentText("Slot number is already occupied.");
 								alert.showAndWait();
+								event.consume();
 							}
 						} else {
 							alert.setContentText("Medication cannot have the same name as another medication.");
 							alert.showAndWait();
+							event.consume();
 						}
 					} else {
 						alert.setContentText("Slot number must be between 1-6.");
 						alert.showAndWait();
+						event.consume();
 					}
 				} catch (NumberFormatException e) {
 					alert.setContentText("Count, Slot Number and Dispense rate must be a whole number.");
 					alert.showAndWait();
+					event.consume();
 				}
-
-			} else if (response == ButtonType.CANCEL) {
-				this.close();
-			}
-		});
+		    }
+		);
+		this.showAndWait();
 
 	}
 

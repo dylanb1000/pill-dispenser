@@ -46,13 +46,13 @@ public class Main extends Application {
 			System.out.println("Unable to save file.");
 		}
 	}
-
 	public static void main(String[] args) {
 		launch(args);
 	}
 }
 //notes
-/*-Make Medication Dialog not disappear when alert warning is shown
+/* -implement user system
+ * -have machine check pill number before dispensing
  * -decide what functions to put in menubar
  *-enlarge info text
  *-*/

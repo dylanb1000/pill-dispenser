@@ -32,7 +32,8 @@ public class MedicationDialog extends Alert {
 	public MedicationDialog(Model model) {
 		super(Alert.AlertType.NONE);
 		this.model = model;
-		this.getDialogPane().getStylesheets().add("resources/other.css");
+		//this.getDialogPane().getStylesheets().add("resources/other.css");
+		this.getDialogPane().getStylesheets().add("resources/darkTheme.css");
 		count.getProperties().put("vkType", "numeric");
 		slot.getProperties().put("vkType", "numeric");
 		rate.getProperties().put("vkType", "numeric");
@@ -71,7 +72,7 @@ public class MedicationDialog extends Alert {
 	        if (!TextField.class.equals(event.getSource())) {
 	                  	dialog.requestFocus();
 	        }
-	});
+		});
 	}
 
 	public void addDialogShow() {

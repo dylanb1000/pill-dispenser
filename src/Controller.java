@@ -83,8 +83,19 @@ public class Controller implements Initializable {
 
 	@FXML
 	protected void resetMedication(ActionEvent event) {
-		model.getUser().getMedicationList().clear();
-		refreshProgram();
+		try {
+			Alert confirm = new Alert(AlertType.CONFIRMATION);
+			confirm.setTitle("Delete?");
+			confirm.setContentText("Do you want to reset medication list?");
+
+			Optional<ButtonType> result = confirm.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				model.getUser().getMedicationList().clear();
+				refreshProgram();
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("Nothing is selected");
+		}
 	}
 
 	@FXML

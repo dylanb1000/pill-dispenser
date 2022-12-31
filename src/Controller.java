@@ -36,6 +36,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
 import javafx.util.Pair;
@@ -260,9 +261,24 @@ public class Controller implements Initializable {
 		int minuteNow = LocalDateTime.now().getMinute();
 		if (medication.getDispenseTime().getHour() == hourNow
 				&& medication.getDispenseTime().getMinute() == minuteNow) {
-			System.out.println("Adding Medication to Queue");
 			for(int i=0;i<medication.getDispenseRate();i++) {
-				machine.addToMedicationQueue(medication);
+				if(medication.getDispenseRate()>medication.getCount()) {
+					Alert alert = new Alert(AlertType.WARNING);
+					Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+					stage.setAlwaysOnTop(true);
+					alert.getDialogPane().getStylesheets().add("resources/other.css");
+					alert.setTitle("Warning Dialog");
+					alert.setHeaderText(medication.getName()+" is empty. Please refill");
+					String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+					model.getUser().getLog().addEntry("Failed: "+medication.getName(), time);
+					alert.show();
+					refreshProgram();
+					break;
+				}
+				else {
+					System.out.println("Adding "+medication.getName()+" to Queue");
+					machine.addToMedicationQueue(medication);
+				}
 			}
 		}
 	}

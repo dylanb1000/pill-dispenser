@@ -87,7 +87,6 @@ public class MedicationDialog extends Alert {
 				    ActionEvent.ACTION, 
 				    event -> {
 				    	try {
-				    		System.out.println("yep");
 							if (checkSlotRange(Integer.parseInt(slot.getText())) == false) {
 								if (checkName(name.getText()) == false) {
 									if (checkSlot(Integer.parseInt(slot.getText())) == false) {

@@ -21,9 +21,19 @@
 		      <menus>
 		        <Menu fx:id="fileMenu" mnemonicParsing="true" text="File">
 		          <items>
+		          	<Menu fx:id="LogMenu" mnemonicParsing="true" text="Log">
+			          	<items>
+			        		<MenuItem fx:id="clearLog" mnemonicParsing="true" text="Clear Log" onAction="#clearLog"/>
+		            		<MenuItem fx:id="exportLog" mnemonicParsing="true" text="Export Log" onAction="#exportLog"/>
+			          	</items>
+		          	</Menu>
+		          	<Menu fx:id="themeMenu" mnemonicParsing="true" text="Theme">
+			          	<items>
+			          		<MenuItem fx:id="darkTheme" mnemonicParsing="true" text="Dark"/>
+		            		<MenuItem fx:id="test" mnemonicParsing="true" text="test"/>
+			          	</items>
+		          	</Menu>
 		            <MenuItem fx:id="item1" mnemonicParsing="true" text="Exit" onAction="#exit"/>
-		            <MenuItem fx:id="item2" mnemonicParsing="true" text="Clear Log" onAction="#clearLog"/>
-		            <MenuItem fx:id="item3" mnemonicParsing="true" text="Export Log" onAction="#exportLog"/>
 		          </items>
 		        </Menu>
 		      </menus>

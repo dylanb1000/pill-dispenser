@@ -29,11 +29,10 @@ public class MedicationDialog extends Alert {
 	TextField rate = new TextField();
 	Model model;
 
-	public MedicationDialog(Model model) {
+	public MedicationDialog(Model model, String styleSheet) {
 		super(Alert.AlertType.NONE);
 		this.model = model;
-		//this.getDialogPane().getStylesheets().add("resources/other.css");
-		this.getDialogPane().getStylesheets().add("resources/darkTheme.css");
+		this.getDialogPane().getStylesheets().add("resources/"+styleSheet);
 		count.getProperties().put("vkType", "numeric");
 		slot.getProperties().put("vkType", "numeric");
 		rate.getProperties().put("vkType", "numeric");

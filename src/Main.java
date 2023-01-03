@@ -25,8 +25,9 @@ public class Main extends Application {
 		final FXMLLoader mainView = new FXMLLoader();
 		mainView.setLocation(getClass().getResource("/resources/MainView.fxml"));
 		mainView.setController(controller);
-
+		
 		BorderPane grid = mainView.load();
+		
 		Scene scene = new Scene(grid);
 		primaryStage.setTitle("Pill Dispenser v1.0");
 		primaryStage.getIcons().add(new Image("resources/main_icon.png"));
@@ -52,7 +53,7 @@ public class Main extends Application {
 }
 //notes
 /* -implement user system
- * -have machine check pill number before dispensing
+ * -theme selection
  * -decide what functions to put in menubar
  *-enlarge info text
  *-*/

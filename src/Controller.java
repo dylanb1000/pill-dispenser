@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
@@ -16,8 +17,12 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -26,6 +31,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -37,6 +43,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
 import javafx.util.Pair;
@@ -66,12 +73,14 @@ public class Controller implements Initializable {
 	@FXML
 	private Menu fileMenu;
 	@FXML
-	private MenuItem newMenuItem;
+	private Menu themeMenu;
 	private XYChart.Series<String, Integer> mainSeries = new XYChart.Series<String, Integer>();
 	@FXML
 	private ListView<Medication> medicationList;
 	ObservableList<Medication> observableList = FXCollections.observableArrayList();
 	ObservableList<String> observableListLog = FXCollections.observableArrayList();
+	//Default theme
+	String styleSheet = "darkTheme.css";
 	private Machine machine;
 	private Thread t1;
 
@@ -101,7 +110,7 @@ public class Controller implements Initializable {
 
 	@FXML
 	protected void editMedication(ActionEvent event) {
-		MedicationDialog medicationDialog = new MedicationDialog(model);
+		MedicationDialog medicationDialog = new MedicationDialog(model,styleSheet);
 		try {
 			medicationDialog.editDialogShow(medicationList);
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -112,7 +121,7 @@ public class Controller implements Initializable {
 
 	@FXML
 	protected void addMedication(ActionEvent event) {
-		MedicationDialog medicationDialog = new MedicationDialog(model);
+		MedicationDialog medicationDialog = new MedicationDialog(model,styleSheet);
 		try {
 			medicationDialog.addDialogShow();
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -185,8 +194,23 @@ public class Controller implements Initializable {
 		observableListLog.setAll(logInfo);
 		logList.setItems(observableListLog);
 
-
-
+		for(MenuItem item:themeMenu.getItems()) {
+			item.setOnAction(new EventHandler<ActionEvent>() {
+			    @Override
+			    public void handle(ActionEvent e) {
+		    	Stage stage = (Stage) menuBar.getScene().getWindow();
+			    try {
+			    	stage.getScene().getStylesheets().remove(stage.getScene().getStylesheets().get(0));
+			    }
+			    catch(Exception err){
+			    	
+			    }
+			    stage.getScene().getStylesheets().add("resources/"+item.getId()+".css");
+			    System.out.println(item.getId()+".css");
+			     }
+			    });
+		}
+		
 		xAxis.setLabel("Medication Name");
 		xAxis.setTickLabelFill(Color.WHITE);
 		yAxis.setLabel("Pill Count");
@@ -282,7 +306,7 @@ public class Controller implements Initializable {
 			}
 		}
 	}
-
+	
 	public void stopThread() {
 		this.machine.stop();
 		this.t1.interrupt();

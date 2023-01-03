@@ -30,7 +30,9 @@
 		          	<Menu fx:id="themeMenu" mnemonicParsing="true" text="Theme">
 			          	<items>
 			          		<MenuItem fx:id="darkTheme" mnemonicParsing="true" text="Dark"/>
-		            		<MenuItem fx:id="test" mnemonicParsing="true" text="test"/>
+			          		<MenuItem fx:id="darkTheme2" mnemonicParsing="true" text="Dark #2"/>
+			          		<MenuItem fx:id="lightTheme" mnemonicParsing="true" text="Light"/>
+		            		<MenuItem fx:id="caspian" mnemonicParsing="true" text="Caspian"/>
 			          	</items>
 		          	</Menu>
 		            <MenuItem fx:id="item1" mnemonicParsing="true" text="Exit" onAction="#exit"/>

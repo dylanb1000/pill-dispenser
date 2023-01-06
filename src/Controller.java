@@ -86,7 +86,7 @@ public class Controller implements Initializable {
 
 	public Controller(Model model) {
 		this.model = model;
-		this.machine = new Machine(this.model, this);
+		this.machine = new Machine(this.model);
 		Thread t1 = new Thread(this.machine);
 		t1.start();
 	}

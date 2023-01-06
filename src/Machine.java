@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -13,12 +14,9 @@ import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.util.CommandArgumentParser;
 
-import javafx.application.Platform;
-
 public class Machine implements Runnable {
 	private Queue<Medication> queue = new LinkedList<Medication>();
 	private Model model;
-	private Controller controller;
 	// steps motor needs to make 1 full revolution
 	private int stepsForRotation;
 	// initialize machine components
@@ -42,9 +40,8 @@ public class Machine implements Runnable {
 	// 0.1 milliseconds
 	private int sleep = 100;*/
 
-	public Machine(Model model,Controller controller) {
+	public Machine(Model model) {
 		this.model = model;
-		this.controller = controller;
 		/*gpio.setShutdownOptions(true, PinState.LOW, pins);
 		// define stepper parameters before attempting to control motor
 		// anything lower than 2 ms does not work for my sample motor using single step
@@ -75,15 +72,18 @@ public class Machine implements Runnable {
 		String name = dispensedMed.getName();
 		String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 		model.getUser().getLog().addEntry(name, time);
-		//decrement count
+		System.out.println(dispensedMed.getCount());
 		dispensedMed.setCount(dispensedMed.getCount()-1);
-		//refresh gui when dispensed(gui stuff in seperate thread)
-		Platform.runLater(new Runnable() {
-		    @Override
-		    public void run() {
-				controller.refreshProgram();
-		    }
-		});
+		System.out.println(dispensedMed.getCount());
+	}
+	
+	public void getMedication() {
+		//need to get pill if pill is not on suction it needs to retry
+		//pumpOn(true);
+		//tipActive();
+		//tipToHome();
+		//pumpOff(false);
+		//Thread.sleep(1000);
 	}
 	
 	/*public void pumpOn(boolean bool) {
